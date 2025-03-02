@@ -122,6 +122,7 @@ with st.sidebar: #this contains all side bar content
 # Main view
 if st.session_state.get("generate_clicked", False):
     generate_and_display_explanations(prompts, selected_topic, selected_class, selected_subject, selected_language)
+    st.session_state.generate_clicked = False
     
 # If the "Generate Content" button is clicked from the side bar 
 #  then generate_and_display_explanations function is called with the selected inputs and prompts
