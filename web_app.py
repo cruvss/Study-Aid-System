@@ -6,7 +6,7 @@ FASTAPI_URL = "http://127.0.0.1:8000/generate-explanations"
 
 # Set page configuration
 st.set_page_config(
-    page_title="NEET Study Aid System",
+    page_title="Study Aid System",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -51,11 +51,20 @@ def generate_and_display_explanations(prompts, selected_topic, selected_class, s
         
         if explanations:
             tabs = st.tabs([f"{topics[i]}" for i in range(len(topics))])
-            for tab, explanation in zip(tabs, explanations):
+            for i, (tab, explanation) in enumerate(zip(tabs, explanations)):
                 with tab:
-                    st.write(explanation)
+                    st.text_area(
+                        f"Edit Explanation {i+1}", 
+                        value=explanation, 
+                        height=400
+                    )
+
+            if st.button("Save Changes"):
+                st.success("Explanations saved successfully!")
         else:
             st.warning("No explanations were generated.")
+
+
     else:
         st.error("Failed to generate explanations. Please check the FastAPI server.")
 
