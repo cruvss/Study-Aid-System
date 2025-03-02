@@ -6,7 +6,7 @@ FASTAPI_URL = "http://127.0.0.1:8000/generate-explanations"
 
 # Set page configuration
 st.set_page_config(
-    page_title="NEET Study Aid System",
+    page_title="Study Aid System",
     layout="wide",
     initial_sidebar_state="expanded"
 )

@@ -58,6 +58,7 @@
 2025-03-02 17:17:17,403 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
 2025-03-02 17:33:37,693 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
 2025-03-02 17:33:40,104 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+<<<<<<< HEAD
 2025-03-02 18:00:45,742 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 11, language: English
 2025-03-02 18:00:47,353 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
 2025-03-02 18:01:05,132 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
@@ -121,3 +122,25 @@
 2025-03-02 19:47:53,053 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
 2025-03-02 19:47:54,598 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
 2025-03-02 19:48:02,521 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+=======
+2025-03-02 14:13:21,560 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
+2025-03-02 14:13:23,366 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:13:36,162 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:13:46,634 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:13:57,984 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:14:06,115 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:14:23,616 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:28:30,562 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
+2025-03-02 14:28:34,258 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:28:46,999 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:29:04,792 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:29:13,856 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:29:26,752 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:29:38,124 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:50:20,990 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
+2025-03-02 14:50:23,088 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:53:05,979 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
+2025-03-02 14:53:08,026 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 14:54:12,198 - main - INFO - Generating explanation on topic: Laws of Motion,subject: Physics, grade level: 5, language: English
+2025-03-02 14:54:13,928 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+>>>>>>> c28316b0aaf039c358852b2c5e0015d7dac08e34
