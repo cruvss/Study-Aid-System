@@ -75,7 +75,7 @@ class ResponseGenerator:
 
     def generate_response(self, prompt:str,topic: str, grade_level: str, language:str, model: str = "openai/gpt-4o-mini") -> Optional[str]:
         """
-        Generate structured and engaging facts about the topic for the specified grade level,        """
+        Generate structured and engaging explnations based on subject, about the topic for the specified grade level,        """
         try:
            
          
@@ -104,12 +104,13 @@ class ResponseGenerator:
             print(f"Error generating response: {str(e)}")
             return None
 
-def generate_facts(topic: str,idx:int ,custom_prompt:str,subject:str ,grade_level: str,language:str) -> str:
+def generate_explanation(topic: str,idx:int ,custom_prompt:str,subject:str ,grade_level: str,language:str) -> str:
     """
     Process the topic and grade level to generate structured explanation
     
     Args:
-        topic (str): The topic for the facts
+        topic (str): The topic to be explained
+        subject (str): The subject of the topic
         grade_level (str): The grade level of the student
         api_key (str): API key for OpenRouter
         
@@ -147,10 +148,10 @@ async def generate_explanations(request: Request):
         if not OPENAI_API_KEY:
             raise HTTPException(status_code=500, detail="OpenAI API key is not provided")
         
-        texts = generate_facts(topic=request.topic, idx=None, custom_prompt=[request.custom_prompt] ,subject=request.subject, grade_level=request.grade_level,language=request.language)
+        texts = generate_explanation(topic=request.topic, idx=None, custom_prompt=[request.custom_prompt] ,subject=request.subject, grade_level=request.grade_level,language=request.language)
 
         return Response(
-            facts=texts,
+            explanations=texts,
             grade_level=request.grade_level,
             timestamp=datetime.now().isoformat(),
         )
