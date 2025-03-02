@@ -43,7 +43,7 @@ class Request(BaseModel):
     subject: str
     grade_level: int
     language: str
-    custom_prompt:str
+    custom_prompt:List[str]
 
     class Config:
         json_schema_extra = {
@@ -52,7 +52,7 @@ class Request(BaseModel):
                 "subject": "Science",
                 "grade_level": 12,
                 "language": "English",
-                "custom_prompt": "Provide an explanation for the topic Artificial Intelligence in English language."
+                "custom_prompt": ["Provide an explanation for the topic Artificial Intelligence in English language."]
             }
         }
 
