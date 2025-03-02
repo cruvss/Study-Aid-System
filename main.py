@@ -120,7 +120,7 @@ def generate_explanation(topic: str,idx:int ,custom_prompt:list,subject:str ,gra
     #            f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide an elaborate different use cases for topic {topic} from subject {subject} and grade level {grade_level} at certain fields and in {language} language.",
     #            f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide most probable objective-type questions along with answers related to the topic (5 questions, tough and medium range, closely aligned with the National Testing Agency’s (NTA) approach for NEET exam questions) for topic {topic} from subject {subject} and grade level {grade_level} and in {language} language.",
     #            f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide all questions and answers from the past 10 years of NEET question papers related to the topic for topic {topic}from subject {subject} and grade level {grade_level} at certain fields and in {language} language."]
-    
+    prompts=[]
     prompts =[f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n"+i for i in custom_prompt]
     
     response_gen = ResponseGenerator(
