@@ -58,9 +58,6 @@ def generate_and_display_explanations(prompts, selected_topic, selected_class, s
                         value=explanation, 
                         height=400
                     )
-
-            if st.button("Save Changes"):
-                st.success("Explanations saved successfully!")
         else:
             st.warning("No explanations were generated.")
 
