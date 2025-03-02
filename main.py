@@ -52,7 +52,7 @@ class Request(BaseModel):
                 "subject": "Science",
                 "grade_level": 12,
                 "language": "English",
-                "custom_prompt": ["Provide an explanation for the topic Artificial Intelligence in English language."]
+                "custom_prompt": []"Provide an explanation for the topic Artificial Intelligence in English language."
             }
         }
 

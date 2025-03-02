@@ -32,7 +32,7 @@ with st.sidebar:
     selected_topic = st.selectbox("Select Topic", topic_options[selected_subject])
     
     st.header("Prompt Selection")
-    neet_exam = st.checkbox("NEET Examination", value=True)
+    neet_exam = st.checkbox(st.text_area("Prompt 1:", height=68), value=True)
     simple_explanation = st.checkbox("Simple Explanation", value=True)
     curriculum_equations = st.checkbox("Curriculum Equations", value=True)
     real_life_examples = st.checkbox("Real-life Examples", value=True)
@@ -42,7 +42,7 @@ with st.sidebar:
     
     custom_prompt_text = ""
     if custom_prompt:
-        custom_prompt_text = st.text_area("Enter custom prompt:", height=100)
+        custom_prompt_text = st.text_area("Enter custom prompt:", height=68)
     
     if st.button("Generate Content", type="primary"):
         st.session_state.generate_clicked = True
@@ -63,10 +63,21 @@ if st.button("Provide Explanations"):
         explanations = data.get("explanations", [])
         
         if explanations:
+            if "edited_explanations" not in st.session_state:
+                st.session_state.edited_explanations = explanations  # Store in session state
+
             tabs = st.tabs([f"Explanation {i+1}" for i in range(len(explanations))])
-            for tab, explanation in zip(tabs, explanations):
+            for i, (tab, explanation) in enumerate(zip(tabs, explanations)):
                 with tab:
-                    st.write(explanation)
+                    st.session_state.edited_explanations[i] = st.text_area(
+                        f"Edit Explanation {i+1}", 
+                        value=st.session_state.edited_explanations[i], 
+                        height=200
+                    )
+
+            if st.button("Save Changes"):
+                st.success("Explanations saved successfully!")
+
         else:
             st.warning("No explanations were generated.")
     else:
