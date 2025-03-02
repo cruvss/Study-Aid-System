@@ -1,30 +1,73 @@
 import streamlit as st
 import requests
 
-
 FASTAPI_URL = "http://127.0.0.1:8000/generate-explanations"
 
-# Streamlit UI
-st.title("study aid system")
-st.write("Select a topic ,subject and grade level to be explained.")
+# Set page configuration
+st.set_page_config(
+    page_title="NEET Study Aid System",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-topic = st.text_input("Enter a topic:", "Laws of motion")
-grade_level = st.number_input("Enter grade level:", min_value=1, max_value=12, value=5, step=1)
-subject = st.text_input("Enter subject:", "Physics")
-language = st.text_input("Enter language:", "English")
-custom_prompt = st.text_area("Custom Prompt", "Provide an explanation for the topic Laws of motion in English language.")
+# Header
+st.title("NEET Study Aid System")
+
+# Sidebar
+with st.sidebar:
+    st.header("Class & Subject")
+    selected_class = st.number_input("Enter grade level:", min_value=1, max_value=12, value=5, step=1)
+    subject_options = ["Physics", "Chemistry", "Biology", "Mathematics"]
+    selected_subject = st.selectbox("Select Subject", subject_options)
+    language_options = ["English", "Hindi"]
+    selected_language = st.selectbox("Select Language", language_options)
+    
+    topic_options = {
+        "Physics": ["Laws of Motion", "Thermodynamics", "Optics", "Electrostatics", "Magnetism"],
+        "Chemistry": ["Atomic Structure", "Chemical Bonding", "Equilibrium", "Organic Chemistry"],
+        "Biology": ["Cell Structure", "Human Physiology", "Genetics", "Ecology"],
+        "Mathematics": ["Calculus", "Algebra", "Trigonometry", "Statistics"]
+    }
+    
+    selected_topic = st.selectbox("Select Topic", topic_options[selected_subject])
+    
+    st.header("Prompt Selection")
+    neet_exam = st.checkbox("NEET Examination", value=True)
+    simple_explanation = st.checkbox("Simple Explanation", value=True)
+    curriculum_equations = st.checkbox("Curriculum Equations", value=True)
+    real_life_examples = st.checkbox("Real-life Examples", value=True)
+    practice_questions = st.checkbox("Practice Questions", value=True)
+    past_neet_questions = st.checkbox("Past NEET Questions")
+    custom_prompt = st.checkbox("Add Custom Prompt")
+    
+    custom_prompt_text = ""
+    if custom_prompt:
+        custom_prompt_text = st.text_area("Enter custom prompt:", height=100)
+    
+    if st.button("Generate Content", type="primary"):
+        st.session_state.generate_clicked = True
 
 if st.button("Provide Explanations"):
     # Send request to FastAPI
-    payload = {"topic": topic, "grade_level": grade_level,"subject": subject,"language": language,"custom_prompt":custom_prompt} # make sure the payload mathces the pydantic model of the FastAPI
+    payload = {
+        "topic": selected_topic,
+        "grade_level": selected_class,
+        "subject": selected_subject,
+        "language": selected_language,
+        "custom_prompt": custom_prompt_text
+    }
     response = requests.post(FASTAPI_URL, json=payload)
     
     if response.status_code == 200:
         data = response.json()
-        st.subheader("Explanation: ")
+        explanations = data.get("explanations", [])
         
-        # Process and display facts
-        for prompt_gen in data["explanations"]:
-            st.write(prompt_gen)
+        if explanations:
+            tabs = st.tabs([f"Explanation {i+1}" for i in range(len(explanations))])
+            for tab, explanation in zip(tabs, explanations):
+                with tab:
+                    st.write(explanation)
+        else:
+            st.warning("No explanations were generated.")
     else:
-        st.error("Failed to generate facts. Please check the FastAPI server.")
+        st.error("Failed to generate explanations. Please check the FastAPI server.")
