@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-import time 
+import time
 
 FASTAPI_URL = "http://127.0.0.1:8000/generate-explanations"
 
@@ -14,53 +14,95 @@ st.set_page_config(
 # Header
 st.title("NEET Study Aid System")
 
-# Initialize session state for dynamic prompt boxes 
-# The initial state includes two prompt boxes: one for NEET-focused explanations and another for simple explanations. Change this as requrired
-# to make it flexible We have added placeholder text for each prompt box
+# Initialize session state for dynamic prompt boxes and explanations
 if 'prompt_boxes' not in st.session_state:
     st.session_state.prompt_boxes = [
         {"key": "neet_focus", "placeholder": "Explain the topic with NEET exam focus..."},
         {"key": "simple_explanation", "placeholder": "Include simple explanation..."}
     ]
 
+if 'explanations' not in st.session_state:
+    st.session_state.explanations = []  # Store initial and edited explanations here
+
+if 'combined_prompt' not in st.session_state:
+    st.session_state.combined_prompt = []  # Store the combined prompts
+
+if 'display_explanations' not in st.session_state:
+    st.session_state.display_explanations = False  # Track whether to display explanations
+    
+    
+
 # Function to generate and display explanations
 def generate_and_display_explanations(prompts, selected_topic, selected_class, selected_subject, selected_language):
+    
     # Combine all prompts
     combined_prompt = [prompt for prompt in prompts.values() if prompt.strip()]
-    st.write("Combined Prompts:", combined_prompt) #remove this line after testing prupose
     
-    # Send request to FastAPI
-    payload = {
-        "topic": selected_topic,
-        "grade_level": selected_class,
-        "subject": selected_subject,
-        "language": selected_language,
-        "custom_prompt": combined_prompt
-    }
+    # Store the combined prompts in session state
+    st.session_state.combined_prompt = combined_prompt
     
-    # checking time taken to generate response
-    start_time = time.time()
-    response = requests.post(FASTAPI_URL, json=payload)
-    end_time = time.time()
-    st.write(f"Time taken to generate response: {end_time - start_time:.2f} seconds")
-    
-    if response.status_code == 200:
-        data = response.json()
-        explanations = data.get("explanations", [])
-        topics = combined_prompt #for that tab name in the UI
+    # Only generate new explanations if there are no explanations yet
+    if not st.session_state.explanations:
+        start_time = time.time()
+        payload = {
+            "topic": selected_topic,
+            "grade_level": selected_class,
+            "subject": selected_subject,
+            "language": selected_language,
+            "custom_prompt": combined_prompt
+        }
         
-        if explanations:
-            tabs = st.tabs([f"{topics[i]}" for i in range(len(topics))])
-            for tab, explanation in zip(tabs, explanations):
-                with tab:
-                    st.write(explanation)
+        response = requests.post(FASTAPI_URL, json=payload)
+        end_time = time.time()
+        st.write(f"Time taken to generate response: {end_time - start_time:.2f} seconds")
+        
+        if response.status_code == 200:
+            data = response.json()
+            explanations = data.get("explanations", [])
+            if explanations:
+                st.session_state.explanations = explanations  # Store initial explanations
+            else:
+                st.warning("No explanations were generated.")
         else:
-            st.warning("No explanations were generated.")
-    else:
-        st.error("Failed to generate explanations. Please check the FastAPI server.")
+            st.error("Failed to generate explanations. Please check the FastAPI server.")
+    
+    # Display tabs with editable explanations
+    if st.session_state.explanations:
+        # Use the prompts as tab labels, or use default labels if no prompts for proper error hanling
+        if len(st.session_state.combined_prompt) >= len(st.session_state.explanations): # this will be true and run if the number of prompts is greater than or equal to the number of explanations
+            tab_labels = [st.session_state.combined_prompt[i] if i < len(st.session_state.combined_prompt) and st.session_state.combined_prompt[i] 
+                          else f"Explanation {i+1}" for i in range(len(st.session_state.explanations))]
+     
+
+            
+        else: # now if fewer prompts than explanations, then use default labels
+            tab_labels = [f"Explanation {i+1}" for i in range(len(st.session_state.explanations))]
+        
+        # Create tabs with the appropriate labels
+        tabs = st.tabs(tab_labels)
+        
+        for i, (tab, explanation) in enumerate(zip(tabs, st.session_state.explanations)):
+            with tab:
+                # Use a unique key for each text_area based on the index and topic
+                explanation_key = f"explanation_{selected_topic}_{i}"
+                if explanation_key not in st.session_state:
+                    st.session_state[explanation_key] = explanation
+                
+                # Allow editing and persist changes in session state
+                edited_explanation = st.text_area(
+                    label="",
+                    value=st.session_state[explanation_key],
+                    height=400,
+                    key=f"edit_{selected_topic}_{i}"
+                )
+                
+                # Update session state when the user edits
+                if edited_explanation != st.session_state[explanation_key]:
+                    st.session_state[explanation_key] = edited_explanation
+                    st.session_state.explanations[i] = edited_explanation  # Update the explanations list
 
 # Sidebar
-with st.sidebar: #this contains all side bar content
+with st.sidebar:
     st.header("Class & Subject")
     selected_class = st.number_input("Enter grade level:", min_value=1, max_value=12, value=5, step=1)
     subject_options = ["Physics", "Chemistry", "Biology", "Mathematics"]
@@ -89,7 +131,6 @@ with st.sidebar: #this contains all side bar content
     # Display all prompt boxes with headers
     prompts = {}
     for i, prompt_box in enumerate(st.session_state.prompt_boxes):
-        # Add a header for each prompt box
         if i == 0:
             st.subheader("Prompt 1")
         elif i == 1:
@@ -107,17 +148,24 @@ with st.sidebar: #this contains all side bar content
     # Button to add more prompt boxes
     if st.button("Add More Requirements"):
         add_prompt_box()
-        #st.rerun()
     
     # Button to generate content
     if st.button("Generate Content", type="primary"):
+        # Clear previous explanations when generating new content
+        st.session_state.explanations = []
+        # Reset explanation-specific session states
+        for key in list(st.session_state.keys()):
+            if key.startswith("explanation_"):
+                del st.session_state[key]
         st.session_state.generate_clicked = True
 
-# Main view
+# Main view - only call generate_and_display_explanations once
 if st.session_state.get("generate_clicked", False):
     generate_and_display_explanations(prompts, selected_topic, selected_class, selected_subject, selected_language)
+    # After generating, set the flag to false and enable display
     st.session_state.generate_clicked = False
+    st.session_state.display_explanations = True
     
-    
-# If the "Generate Content" button is clicked from the side bar 
-#  then generate_and_display_explanations function is called with the selected inputs and prompts
+elif st.session_state.get("display_explanations", False):
+    # Only display existing explanations without regenerating
+    generate_and_display_explanations({}, selected_topic, selected_class, selected_subject, selected_language)
