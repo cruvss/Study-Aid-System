@@ -102,7 +102,7 @@ class ResponseGenerator:
             print(f"Error generating response: {str(e)}")
             return None
 
-def generate_explanation(topic: str,idx:int ,custom_prompt:str,subject:str ,grade_level: str,language:str) -> str:
+def generate_explanation(topic: str,idx:int ,custom_prompt:list,subject:str ,grade_level: str,language:str) -> str:
     """
     Process the topic and grade level to generate structured explanation
     
@@ -115,13 +115,13 @@ def generate_explanation(topic: str,idx:int ,custom_prompt:str,subject:str ,grad
     Returns:
         str: Structured explanations
     """
-    prompts = [f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide explanation for given topic of {topic} from subject {subject} and for grade level {grade_level} in {language} language.",
-               f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide an elaborate curriculum equations with real-life examples,(if available) for topic {topic} from subject {subject} and grade level {grade_level} in {language} language.",
-               f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide an elaborate different use cases for topic {topic} from subject {subject} and grade level {grade_level} at certain fields and in {language} language.",
-               f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide most probable objective-type questions along with answers related to the topic (5 questions, tough and medium range, closely aligned with the National Testing Agency’s (NTA) approach for NEET exam questions) for topic {topic} from subject {subject} and grade level {grade_level} and in {language} language.",
-               f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide all questions and answers from the past 10 years of NEET question papers related to the topic for topic {topic}from subject {subject} and grade level {grade_level} at certain fields and in {language} language."]
+    # prompts = [f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide explanation for given topic of {topic} from subject {subject} and for grade level {grade_level} in {language} language.",
+    #            f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide an elaborate curriculum equations with real-life examples,(if available) for topic {topic} from subject {subject} and grade level {grade_level} in {language} language.",
+    #            f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide an elaborate different use cases for topic {topic} from subject {subject} and grade level {grade_level} at certain fields and in {language} language.",
+    #            f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide most probable objective-type questions along with answers related to the topic (5 questions, tough and medium range, closely aligned with the National Testing Agency’s (NTA) approach for NEET exam questions) for topic {topic} from subject {subject} and grade level {grade_level} and in {language} language.",
+    #            f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n\nProvide all questions and answers from the past 10 years of NEET question papers related to the topic for topic {topic}from subject {subject} and grade level {grade_level} at certain fields and in {language} language."]
     
-    prompts += custom_prompt
+    prompts =[f"\n\nGrade Level: {grade_level}\nSubject: {subject} \nTopic: {topic} \n"+i for i in custom_prompt]
     
     response_gen = ResponseGenerator(
         api_key=OPENAI_API_KEY
@@ -146,7 +146,7 @@ async def generate_explanations(request: Request):
         if not OPENAI_API_KEY:
             raise HTTPException(status_code=500, detail="OpenAI API key is not provided")
         
-        texts = generate_explanation(topic=request.topic, idx=None, custom_prompt=[request.custom_prompt] ,subject=request.subject, grade_level=request.grade_level,language=request.language)
+        texts = generate_explanation(topic=request.topic, idx=None, custom_prompt=request.custom_prompt ,subject=request.subject, grade_level=request.grade_level,language=request.language)
 
         return Response(
             explanations=texts,
