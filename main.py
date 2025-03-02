@@ -12,7 +12,8 @@ from openai import OpenAI
 import httpx
 
 
-OPENAI_API_KEY = ""
+OPENAI_API_KEY ="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"
+
 OPENAI_BASE_URL = "https://openrouter.ai/api/v1"
 
 # for logging purpose it will log all the information in app.log file,
@@ -77,9 +78,6 @@ class ResponseGenerator:
         """
         Generate structured and engaging explnations based on subject, about the topic for the specified grade level,        """
         try:
-           
-         
-            
             print(prompt)
 
 
@@ -139,7 +137,7 @@ def generate_explanation(topic: str,idx:int ,custom_prompt:str,subject:str ,grad
 
 
 
-@app.post("/", response_model=Response)
+@app.post("/generate-explanations", response_model=Response)
 async def generate_explanations(request: Request):
     try:
         logger.info(f"Generating explanation on topic: {request.topic},subject: {request.subject}, grade level: {request.grade_level}, language: {request.language}")

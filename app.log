@@ -1,0 +1,11 @@
+2025-03-02 13:47:30,885 - main - INFO - Generating explanation on topic: Laws of motion,subject: Physics, grade level: 5, language: English
+2025-03-02 13:47:30,886 - main - ERROR - Error providing explanations: 500: OpenAI API key is not provided
+2025-03-02 13:48:05,819 - main - INFO - Generating explanation on topic: Laws of motion,subject: Physics, grade level: 5, language: English
+2025-03-02 13:48:05,819 - main - ERROR - Error providing explanations: 500: OpenAI API key is not provided
+2025-03-02 13:49:03,638 - main - INFO - Generating explanation on topic: Laws of motion,subject: Physics, grade level: 5, language: English
+2025-03-02 13:49:05,955 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 13:49:16,844 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 13:49:31,827 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 13:49:41,875 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 13:49:53,784 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-02 13:50:15,779 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
