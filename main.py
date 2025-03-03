@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-print(OPENAI_API_KEY)
+
 # for logging purpose it will log all the information in app.log file,
 logging.basicConfig(
     level=logging.INFO,
