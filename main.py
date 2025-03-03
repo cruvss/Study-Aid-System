@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
+print(OPENAI_API_KEY)
 # for logging purpose it will log all the information in app.log file,
 logging.basicConfig(
     level=logging.INFO,
@@ -53,7 +53,7 @@ class Request(BaseModel):
                 "subject": "Science",
                 "grade_level": 12,
                 "language": "English",
-                "custom_prompt": []"Provide an explanation for the topic Artificial Intelligence in English language."
+                "custom_prompt": ["Provide an explanation for the topic Artificial Intelligence in English language."]
             }
         }
 
