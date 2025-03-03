@@ -1,2 +1,7 @@
 neet/
 __pycache__/
+.env
+*.pyc
+*.pyo
+env/
+*.sqlite3
