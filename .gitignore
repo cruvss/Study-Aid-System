@@ -5,3 +5,5 @@ __pycache__/
 *.pyo
 env/
 *.sqlite3
+app.log
+*.log
