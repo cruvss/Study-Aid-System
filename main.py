@@ -11,10 +11,11 @@ from typing import Optional, Dict
 from openai import OpenAI
 import httpx
 
+from dotenv import load_dotenv
 
-OPENAI_API_KEY ="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"
+load_dotenv()
 
-OPENAI_BASE_URL = "https://openrouter.ai/api/v1"
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # for logging purpose it will log all the information in app.log file,
 logging.basicConfig(
